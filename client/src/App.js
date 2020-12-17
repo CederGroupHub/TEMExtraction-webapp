@@ -42,7 +42,7 @@ export default class App extends Component {
       return res.json();
     })
     .then(res => {
-      this.setState({uploading: false, image: res.base64});
+      this.setState({uploading: false, image: res});
     });
   }
 
@@ -65,7 +65,7 @@ export default class App extends Component {
           return <Spinner />
         case this.state.image !== null:
           return <Images 
-                  image={this.state.image} 
+                  image={this.state.image}
                   />
         default:
           return <Buttons onChange={this.onChange} />
