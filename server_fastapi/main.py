@@ -16,12 +16,12 @@ class Base64(BaseModel):
 @app.post("/image-upload/")
 async def upload_image(f: Base64):
     image_data = re.sub('^data:image/.+;base64,', '', f.base64)
-    im = Image.open(io.BytesIO(base64.b64decode(image_data)))
-    im.convert('RGB').save('Mask_RCNN/images/test_img.jpg')
+    im = Image.open(io.BytesIO(base64.b64decode(image_data))).convert('RGB')
+    im.save('Mask_RCNN/images/test_img.jpg')
 
-    base64_string = run_segmentation()
+    base64_string, width, height = run_segmentation()
 
-    return {'base64': base64_string}
+    return {'base64': base64_string, 'width': width, 'height': height}
 
 if os.environ.get("COVID_API_CORS_DEBUG", "False") == "True":
     print('Warning: sending CORS headers to allow debugging, this should not happen in production mode.')
