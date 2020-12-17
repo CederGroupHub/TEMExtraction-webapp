@@ -4,7 +4,6 @@ import Spinner from './Spinner'
 import Images from './Images'
 import Buttons from './Buttons'
 import WakeUp from './WakeUp'
-import Footer from './Footer'
 import { API_URL } from './config'
 import './App.css'
 
@@ -29,12 +28,21 @@ export default class App extends Component {
   }
 
   fetchImage(str) {
-    console.log(str);
+    this.setState({uploading: true});
 
     fetch(`${API_URL}/image-upload/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'base64': str}),
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw res;
+      }
+      return res.json();
+    })
+    .then(res => {
+      this.setState({uploading: false, image: res.base64});
     });
   }
 
@@ -42,9 +50,7 @@ export default class App extends Component {
     if (e.target.files && e.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e) => {
-        this.setState({image: e.target.result}, () => {
-          this.fetchImage(String(this.state.image));
-        });
+        this.fetchImage(String(e.target.result));
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -72,7 +78,6 @@ export default class App extends Component {
         <div className='buttons'>
           {content()}
         </div>
-        <Footer />
       </div>
     )
   }  
