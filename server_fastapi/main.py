@@ -13,8 +13,8 @@ app = FastAPI()
 class Base64(BaseModel):
     base64: str
 
-@app.post("/image-upload/")
-async def upload_image(f: Base64):
+@app.post("/segment/")
+async def segment(f: Base64):
     image_data = re.sub('^data:image/.+;base64,', '', f.base64)
     im = Image.open(io.BytesIO(base64.b64decode(image_data))).convert('RGB')
     im.save('Mask_RCNN/images/test_img.jpg')

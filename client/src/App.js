@@ -7,11 +7,6 @@ import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 
-const toastColor = { 
-  background: '#505050', 
-  text: '#fff' 
-}
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +25,7 @@ export default class App extends Component {
   fetchImage(str) {
     this.setState({uploading: true});
 
-    fetch(`${API_URL}/image-upload/`, {
+    fetch(`${API_URL}/segment/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({'base64': str}),
