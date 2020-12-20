@@ -2,7 +2,7 @@ import os
 import io
 import re
 import base64
-from utils import run_segmentation
+from utils import *
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,11 +15,14 @@ class Base64(BaseModel):
 
 @app.post("/segment/")
 async def segment(f: Base64):
-    image_data = re.sub('^data:image/.+;base64,', '', f.base64)
-    im = Image.open(io.BytesIO(base64.b64decode(image_data))).convert('RGB')
+    image_data = remove_base64_prefix(f)
+    im = Image.open(base64_to_bytes(image_data)).convert('RGB')
     im.save('Mask_RCNN/images/test_img.jpg')
 
     base64_string, width, height = run_segmentation()
+
+    os.remove("Mask_RCNN/images/test_img.jpg")
+    os.remove("Mask_RCNN/visualizations/inference_image.png")
 
     return {'base64': base64_string, 'width': width, 'height': height}
 
