@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import Segmentation from './Segmentation'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -10,17 +11,13 @@ export default class Table extends Component {
     }
 
     render() {
-        console.log("In Table component");
         return (
-            <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-                <Tab eventKey="home" title="Home">
-                    Home
+            <Tabs defaultActiveKey="segmentation" id="uncontrolled-tab-example">
+                <Tab eventKey="segmentation" title="Segmentation">
+                    <Segmentation />
                 </Tab>
-                <Tab eventKey="profile" title="Profile">
-                    Profile
-                </Tab>
-                <Tab eventKey="contact" title="Contact" disabled>
-                    Contact
+                <Tab eventKey="scale_label" title="Scale and Label detection">
+                    Add Scale and Label detection here!
                 </Tab>
             </Tabs>
         );

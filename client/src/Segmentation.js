@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Notifications from 'react-notify-toast'
 import Spinner from './Spinner'
 import Images from './Images'
 import Buttons from './Buttons'
@@ -7,7 +6,7 @@ import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 
-export default class App extends Component {
+export default class Segmentation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,11 +68,10 @@ export default class App extends Component {
 
     return (
       <div className='container'>
-        <Notifications />
         <div className='buttons'>
           {content()}
         </div>
       </div>
     )
-  }  
+  }
 }
