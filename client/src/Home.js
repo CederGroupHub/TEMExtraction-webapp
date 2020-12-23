@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import Spinner from './Spinner'
-import Images from './Images'
 import Buttons from './Buttons'
 import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
-import { Link } from '@reach/router'
 
 export default class Home extends Component {
   constructor(props) {
@@ -77,22 +75,34 @@ export default class Home extends Component {
     const content = () => {
       switch(true) {
         case this.state.loading:
-          return <WakeUp />
+          return (
+            <div className='images'>
+              <WakeUp />
+            </div>
+          )
         case this.state.uploading_segmentation:
-          return <Spinner />
+          return (
+            <div className='spin'>
+              <Spinner />
+            </div>
+          )
         case this.state.segmented_image !== null:
-          return <Table segmented_image={this.state.segmented_image} />
+          return (
+            <Table segmented_image={this.state.segmented_image} />
+          )
         default:
-          return <Buttons onChange={this.onChange} />
+          return (
+            <div className='images'>
+              <Buttons onChange={this.onChange} />
+            </div>
+          )
       }
     }
 
     return (
-      // <div className='container'>
-      <div className='buttons'>
+      <div>
         {content()}
       </div>
-      // </div>
     )
   }
 }

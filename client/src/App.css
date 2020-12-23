@@ -24,9 +24,23 @@ body {
   margin: 0 10vw
 }
 
+.spin {
+  display: flex;
+  align-items: center;
+  height: 75vh;
+}
+
+.table {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .images {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 75vh;
 }
 
 .delete {

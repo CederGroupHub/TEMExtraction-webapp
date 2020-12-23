@@ -1,8 +1,8 @@
 import React from 'react'
+import './App.css';
 
 export default function Images(props) {
   let image = props.image;
-  console.log(image);
   return (
     <div key='image' className='fadein'>
       <img

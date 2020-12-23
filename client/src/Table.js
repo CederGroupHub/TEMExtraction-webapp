@@ -3,6 +3,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Segmentation from './Segmentation'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 
 export default class Table extends Component {

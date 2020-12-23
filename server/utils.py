@@ -6,7 +6,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-basewidth = 900
+basewidth = 500
 
 def remove_base64_prefix(f):
     image_data = re.sub('^data:image/.+;base64,', '', f.base64)
