@@ -5,6 +5,8 @@ import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
+import TEMLogo from './Shared/img/logo_small.png'
+
 
 export default class Home extends Component {
   constructor(props) {
@@ -101,6 +103,7 @@ export default class Home extends Component {
 
     return (
       <div>
+        <img src={TEMLogo} />
         {content()}
       </div>
     )
