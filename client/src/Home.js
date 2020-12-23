@@ -1,4 +1,4 @@
-  import React, { Component } from 'react'
+import React, { Component } from 'react'
 import Spinner from './Spinner'
 import Buttons from './Buttons'
 import WakeUp from './WakeUp'
