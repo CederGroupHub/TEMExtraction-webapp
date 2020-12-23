@@ -6,6 +6,7 @@ import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
 import TEMLogo from './Shared/img/logo_small.png'
+import { Navbar, Nav } from 'react-bootstrap'
 
 
 export default class Home extends Component {
@@ -101,9 +102,22 @@ export default class Home extends Component {
       }
     }
 
+    const nav = () => {
+      return (
+        <Navbar>
+          <Navbar.Brand href="/"><img src={TEMLogo} alt='' /></Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/demo/">Demo</Nav.Link>
+          </Navbar.Collapse>
+        </Navbar>
+      )
+    }
+
     return (
       <div>
-        <img src={TEMLogo} />
+        {nav()}
         {content()}
       </div>
     )
