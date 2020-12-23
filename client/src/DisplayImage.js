@@ -3,7 +3,7 @@ import Images from './Images'
 import WakeUp from './WakeUp'
 import './App.css'
 
-export default class Detection extends Component {
+export default class Display extends Component {
   constructor(props) {
     super(props);
     this.state = {
