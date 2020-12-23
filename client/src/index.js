@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Table from './Table'
+import Home from './Home'
 import registerServiceWorker from './registerServiceWorker'
 
-ReactDOM.render(<Table />, document.getElementById('root'))
+ReactDOM.render(<Home />, document.getElementById('root'))
 registerServiceWorker()

@@ -11,43 +11,11 @@ export default class Segmentation extends Component {
     super(props);
     this.state = {
       loading: true,
-      uploading: false,
-      image: null
     }
-    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
     this.setState({'loading': false});
-  }
-
-  fetchImage(str) {
-    this.setState({uploading: true});
-
-    fetch(`${API_URL}/segment/`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({'base64': str}),
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw res;
-      }
-      return res.json();
-    })
-    .then(res => {
-      this.setState({uploading: false, image: res});
-    });
-  }
-
-  onChange(e) {
-    if (e.target.files && e.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        this.fetchImage(String(e.target.result));
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
   }
 
   render() {
@@ -55,14 +23,8 @@ export default class Segmentation extends Component {
       switch(true) {
         case this.state.loading:
           return <WakeUp />
-        case this.state.uploading:
-          return <Spinner />
-        case this.state.image !== null:
-          return <Images 
-                  image={this.state.image}
-                  />
         default:
-          return <Buttons onChange={this.onChange} />
+          return <Images image={this.props.image} />
       }
     }
 
