@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+  import React, { Component } from 'react'
 import Spinner from './Spinner'
 import Buttons from './Buttons'
 import WakeUp from './WakeUp'
@@ -15,9 +15,9 @@ export default class Home extends Component {
     this.state = {
       loading: true,
       uploading_segmentation: false,
-      uploading_scale_detection: false,
+      uploading_detection: false,
       segmented_image: null,
-      scale_detected_image: null
+      detected_image: null
     }
     this.onChange = this.onChange.bind(this);
   }
@@ -56,7 +56,7 @@ export default class Home extends Component {
       return res.json();
     })
     .then(res => {
-      this.setState({uploading_scale_detection: false, scale_detected_image: res});
+      this.setState({uploading_detection: false, detected_image: res});
     });
   }
 
@@ -65,10 +65,10 @@ export default class Home extends Component {
       let reader = new FileReader();
       reader.onload = (e) => {
         this.setState({uploading_segmentation: true});
-        // this.setState({uploading_scale_detection: true});
+        this.setState({uploading_detection: true});
 
         this.fetchSegmentedImage(String(e.target.result));
-        // this.fetchScaleDetectedImage(String(e.target.result));
+        this.fetchScaleDetectedImage(String(e.target.result));
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -83,15 +83,15 @@ export default class Home extends Component {
               <WakeUp />
             </div>
           )
-        case this.state.uploading_segmentation:
+        case this.state.uploading_detection || this.state.uploading_segmentation:
           return (
             <div className='spin'>
               <Spinner />
             </div>
           )
-        case this.state.segmented_image !== null:
+        case this.state.detected_image !== null && this.state.segmented_image !== null:
           return (
-            <Table segmented_image={this.state.segmented_image} />
+            <Table segmented_image={this.state.segmented_image} detected_image={this.state.detected_image}/>
           )
         default:
           return (

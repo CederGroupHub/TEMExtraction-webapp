@@ -26,6 +26,19 @@ async def segment(f: Base64):
 
     return {'base64': base64_string, 'width': width, 'height': height}
 
+@app.post("/detect/")
+async def object_detect(f: Base64):
+    image_data = remove_base64_prefix(f)
+    im = Image.open(base64_to_bytes(image_data)).convert('RGB')
+    im.save('label_scale_bar_detector/images/test_img.jpg')
+
+    base64_string, width, height = run_object_detection()
+
+    os.remove("label_scale_bar_detector/images/test_img.jpg")
+    os.remove("label_scale_bar_detector/localizer/darknet/predictions.jpg")
+
+    return {'base64': base64_string, 'width': width, 'height': height}
+
 if os.environ.get("COVID_API_CORS_DEBUG", "False") == "True":
     print('Warning: sending CORS headers to allow debugging, this should not happen in production mode.')
 

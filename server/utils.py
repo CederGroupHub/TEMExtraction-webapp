@@ -5,6 +5,7 @@ import subprocess
 import base64
 from io import BytesIO
 from PIL import Image
+from label_scale_bar_detector.localizer import detect
 
 basewidth = 500
 
@@ -14,6 +15,16 @@ def remove_base64_prefix(f):
 
 def base64_to_bytes(f):
     return io.BytesIO(base64.b64decode(f))
+
+def get_base64_str(img):
+    wpercent = (basewidth/float(img.size[0]))
+    hsize = int((float(img.size[1])*float(wpercent)))
+    img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+
+    buffered = BytesIO()
+    img.convert('RGB').save(buffered, format="JPEG")
+    img_str = 'data:image/png;base64,' + str(base64.b64encode(buffered.getvalue()).decode())
+    return img_str, hsize
 
 def run_segmentation():
     os.chdir('./Mask_RCNN')
@@ -27,12 +38,13 @@ def run_segmentation():
     os.chdir('../')
 
     img = Image.open('./Mask_RCNN/visualizations/inference_image.png')
-    wpercent = (basewidth/float(img.size[0]))
-    hsize = int((float(img.size[1])*float(wpercent)))
-    img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+    img_str, hsize = get_base64_str(img)
 
-    buffered = BytesIO()
-    img.convert('RGB').save(buffered, format="JPEG")
-    img_str = 'data:image/png;base64,' + str(base64.b64encode(buffered.getvalue()).decode())
+    return img_str, basewidth, hsize
+
+def run_object_detection():
+    detect('label_scale_bar_detector/images/')
+    img = Image.open('./label_scale_bar_detector/localizer/darknet/predictions.jpg')
+    img_str, hsize = get_base64_str(img)
 
     return img_str, basewidth, hsize
