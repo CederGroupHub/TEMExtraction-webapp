@@ -18,9 +18,11 @@ export default class Home extends Component {
       uploading_detection: false,
       segmented_image: null,
       detected_image: null,
+      uploaded_file: null,
       text: 'No File Selected.'
     }
     this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
@@ -63,17 +65,20 @@ export default class Home extends Component {
 
   onChange(e) {
     if (e.target.files && e.target.files[0]) {
-      let reader = new FileReader();
-      this.setState({text: e.target.files[0].name})
-      reader.onload = (e) => {
-        this.setState({uploading_segmentation: true});
-        this.setState({uploading_detection: true});
-
-        this.fetchSegmentedImage(String(e.target.result));
-        this.fetchScaleDetectedImage(String(e.target.result));
-      };
-      reader.readAsDataURL(e.target.files[0]);
+      this.setState({text: e.target.files[0].name, uploaded_file: e.target.files[0]})
     }
+  }
+
+  onClick() {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({uploading_segmentation: true});
+      this.setState({uploading_detection: true});
+
+      this.fetchSegmentedImage(String(e.target.result));
+      this.fetchScaleDetectedImage(String(e.target.result));
+    };
+    reader.readAsDataURL(this.state.uploaded_file);
   }
 
   render() {
@@ -98,7 +103,7 @@ export default class Home extends Component {
         default:
           return (
             <div className='buttons'>
-              <Buttons text={this.state.text} onChange={this.onChange} />
+              <Buttons text={this.state.text} onChange={this.onChange} onClick={this.onClick}/>
             </div>
           )
       }
