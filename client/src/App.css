@@ -1,6 +1,6 @@
 body {
   font-family: Roboto, sans-serif;
-  background: #f2f2f2;
+  background: #ffffff;
   color: #757575;
   margin: 0px;
 }
@@ -87,7 +87,6 @@ img {
   max-height: 800px;
   max-width: 800px;
   padding: 10px;
-  border: 1px dashed #999;
 }
 
 /* Loading */
