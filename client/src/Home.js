@@ -108,8 +108,10 @@ export default class Home extends Component {
           <Navbar.Brand href="/"><img src={TEMLogo} alt='' /></Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/demo/">Demo</Nav.Link>
+            <Nav>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/demo/">Demo</Nav.Link>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
       )
