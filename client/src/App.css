@@ -12,10 +12,15 @@ body {
   justify-content: space-around;
 }
 
+.padding {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
 .buttons {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: left;
   flex-wrap: wrap;
   height: 75vh
 }

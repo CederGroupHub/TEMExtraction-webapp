@@ -1,13 +1,14 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
+import './App.css';
+import { Button } from '@material-ui/core';
 
 export default props => 
-  <div className='buttons fadein'>
-    <div className='button'>
-      <label htmlFor='single'>
-        <FontAwesomeIcon icon={faImage} color='#3B5998' size='10x' />
-      </label>
-      <input type='file' id='single' onChange={props.onChange} /> 
-    </div>
+  <div>
+    <input accept="image/*" id="file-upload" type="file" onChange={props.onChange}/>
+    <label htmlFor="file-upload">
+      <Button variant="contained" color="primary" component="span">
+        Browse file...
+      </Button>{" "}
+      {props.text}
+    </label>
   </div>

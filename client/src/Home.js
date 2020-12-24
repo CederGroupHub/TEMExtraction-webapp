@@ -17,7 +17,8 @@ export default class Home extends Component {
       uploading_segmentation: false,
       uploading_detection: false,
       segmented_image: null,
-      detected_image: null
+      detected_image: null,
+      text: 'No File Selected.'
     }
     this.onChange = this.onChange.bind(this);
   }
@@ -63,6 +64,7 @@ export default class Home extends Component {
   onChange(e) {
     if (e.target.files && e.target.files[0]) {
       let reader = new FileReader();
+      this.setState({text: e.target.files[0].name})
       reader.onload = (e) => {
         this.setState({uploading_segmentation: true});
         this.setState({uploading_detection: true});
@@ -95,8 +97,8 @@ export default class Home extends Component {
           )
         default:
           return (
-            <div className='images'>
-              <Buttons onChange={this.onChange} />
+            <div className='buttons'>
+              <Buttons text={this.state.text} onChange={this.onChange} />
             </div>
           )
       }
@@ -118,7 +120,7 @@ export default class Home extends Component {
     }
 
     return (
-      <div>
+      <div className='padding'>
         {nav()}
         {content()}
       </div>
