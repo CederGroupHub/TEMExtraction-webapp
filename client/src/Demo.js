@@ -111,9 +111,9 @@ export default class Demo extends Component {
     const intro = () => {
       return (
         <div>
-          <Text color='white' fontWeight='bold' fontSize={[2, 3, 4]}>DEMO</Text><br/>
+          <Text color='#26b7b7' fontWeight='bold' fontSize={[2, 3, 4]}>DEMO</Text><br/>
           <Text color='white' fontSize={[1, 2, 3]}>
-            Upload a TEM image containing nanoparticles and click on the SUBMIT button to begin analysis.<br/><br/>
+            Upload a TEM image containing nanoparticles and click on the Submit button to begin analysis.<br/><br/>
             This software is currently capable of detecting 4 shapes: rods, particles, triangular prisms and
             cubes.<br/>
             For best results, upload an image containing particles of these shapes.<br/><br/>

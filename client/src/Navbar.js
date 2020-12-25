@@ -1,4 +1,3 @@
-import TEMLogo from './Shared/img/logo_small.png'
 import { Navbar, Nav } from 'react-bootstrap'
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';

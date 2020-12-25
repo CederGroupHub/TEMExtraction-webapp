@@ -7,7 +7,7 @@ export default class Home extends Component {
     render() {
         return (
             <div className='padding'>
-                <Text color='black' fontWeight='bold' fontSize={[2, 3, 4]}>Home</Text>
+                <Text color='#26b7b7' fontWeight='bold' fontSize={[2, 3, 4]}>HOME</Text>
             </div>
         );
     }

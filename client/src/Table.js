@@ -8,11 +8,11 @@ import Display from './DisplayImage';
 export default class Table extends Component {
     render() {
         return (
-            <Tabs defaultActiveKey="segmentation" id="uncontrolled-tab-example">
-                <Tab eventKey="segmentation" title="Segmentation">
+            <Tabs defaultActiveKey="segmentation" id="uncontrolled-tab-example" style={{fontSize: [2, 3, 4]}}>
+                <Tab tabClassName="color-blue" eventKey="segmentation" title="SEGMENTATION">
                     <Display image={this.props.segmented_image} />
                 </Tab>
-                <Tab eventKey="scale_label" title="Scale and Label detection">
+                <Tab tabClassName='color-blue' eventKey="scale_label" title="SCALE AND LABEL DETECTION">
                     <Display image={this.props.detected_image} />
                 </Tab>
             </Tabs>
