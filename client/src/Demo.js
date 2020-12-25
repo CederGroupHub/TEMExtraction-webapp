@@ -6,6 +6,7 @@ import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
 import {Text} from 'rebass';
+import { Logo } from './Navbar';
 
 
 export default class Demo extends Component {
@@ -113,10 +114,12 @@ export default class Demo extends Component {
         <div>
           <Text color='#26b7b7' fontWeight='bold' fontSize={[2, 3, 4]}>DEMO</Text><br/>
           <Text color='white' fontSize={[1, 2, 3]}>
+            This is a demo version of the {Logo('small')} software and is simply meant for illustrative purposes. The full <br/>
+            version can be found on GitHub.<br/><br/>
             Upload a TEM image containing nanoparticles and click on the Submit button to begin analysis.<br/><br/>
             This software is currently capable of detecting 4 shapes: rods, particles, triangular prisms and
             cubes.<br/>
-            For best results, upload an image containing particles of these shapes.<br/><br/>
+            For best results, upload an image containing particles belonging to these shape categories.<br/><br/>
           </Text>
         </div>
       );

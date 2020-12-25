@@ -1,3 +1,5 @@
 server/__pycache__
 server/Mask_RCNN
+server/label_scale_bar_detector
 client/node_modules
+.eslintcache
