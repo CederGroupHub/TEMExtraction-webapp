@@ -5,6 +5,7 @@ import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
+import {Text} from 'rebass';
 
 
 export default class Demo extends Component {
@@ -107,8 +108,22 @@ export default class Demo extends Component {
       }
     }
 
+    const intro = () => {
+      return (
+        <div>
+          <Text color='black' fontWeight='bold' fontSize={[3, 4, 5]}>Demo</Text>
+          <Text color='black' fontSize={[1, 2, 3]}>
+            Upload a TEM image containing nanoparticles and click on the SUBMIT button to begin analysis.
+            This version is capable of detecting and analysing nanorods, nanoparticles, nanotriangles and
+            nanocubes. For best results, upload an image containing particles of these morphologies.
+          </Text>
+        </div>
+      );
+    }
+
     return (
       <div className='padding'>
+        {intro()}<br/>
         {content()}
       </div>
     )

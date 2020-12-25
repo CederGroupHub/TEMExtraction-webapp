@@ -4,6 +4,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from '@reach/router'
 import './App.css';
+import { Text } from 'rebass';
 
 
 export default function nav(props) {
@@ -13,8 +14,8 @@ export default function nav(props) {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav>
-              <Nav.Link><Link to='/'>Home</Link></Nav.Link>
-              <Nav.Link><Link to='/demo/'>Demo</Link></Nav.Link>
+              <Nav.Link><Link to='/'><Text color='black' fontWeight='bold' fontSize={[2, 3, 4]}>Home</Text></Link></Nav.Link>
+              <Nav.Link><Link to='/demo/'><Text color='black' fontWeight='bold' fontSize={[2, 3, 4]}>Demo</Text></Link></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

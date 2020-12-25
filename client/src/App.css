@@ -18,13 +18,12 @@ body {
 }
 
 .padding {
-  padding-left: 80px;
-  padding-right: 80px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
   justify-content: left;
   flex-wrap: wrap;
   height: 75vh
