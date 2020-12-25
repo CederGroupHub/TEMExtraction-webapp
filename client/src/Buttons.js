@@ -8,13 +8,13 @@ export default props =>
     <div>
       <input accept="image/*" id="file-upload" type="file" onChange={props.onChange}/>
       <label htmlFor="file-upload">
-        <Button size='small' variant="outlined" color="primary" component="span">
+        <Button variant="contained" color="primary" component="span">
           Browse File...
         </Button>{" "}
-        <Text style={{display: 'inline'}} color='black' fontSize={[1, 1, 1]}>{props.text}</Text>
+        <Text style={{display: 'inline'}} color='white' fontSize={[1, 2, 3]}>{props.text}</Text>
       </label>
     </div>
-    <Button size='small' variant='contained' color='primary' onClick={props.onClick}>
+    <Button variant='contained' color='secondary' onClick={props.onClick}>
       Submit
     </Button>
   </div>

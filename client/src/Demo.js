@@ -101,9 +101,9 @@ export default class Demo extends Component {
           )
         default:
           return (
-            <div className='buttons'>
+            // <div className='buttons'>
               <Buttons text={this.state.text} onChange={this.onChange} onClick={this.onClick}/>
-            </div>
+            // </div>
           )
       }
     }
@@ -111,11 +111,12 @@ export default class Demo extends Component {
     const intro = () => {
       return (
         <div>
-          <Text color='black' fontWeight='bold' fontSize={[2, 3, 4]}>Demo</Text>
-          <Text color='black' fontSize={[1, 1, 1]}>
-            Upload a TEM image containing nanoparticles and click on the SUBMIT button to begin analysis.
-            This version is capable of detecting and analysing nanorods, nanoparticles, nanotriangles and
-            nanocubes. For best results, upload an image containing particles of these morphologies.
+          <Text color='white' fontWeight='bold' fontSize={[2, 3, 4]}>DEMO</Text><br/>
+          <Text color='white' fontSize={[1, 2, 3]}>
+            Upload a TEM image containing nanoparticles and click on the SUBMIT button to begin analysis.<br/><br/>
+            This software is currently capable of detecting 4 shapes: rods, particles, triangular prisms and
+            cubes.<br/>
+            For best results, upload an image containing particles of these shapes.<br/><br/>
           </Text>
         </div>
       );

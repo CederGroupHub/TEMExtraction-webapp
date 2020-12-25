@@ -8,9 +8,7 @@ export default class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className='padding-navbar'>
-                    {nav()}
-                </div>
+                {nav()}<br/>
                 <Router>
                     <Home path="/" />
                     <Demo path="/demo/" />
