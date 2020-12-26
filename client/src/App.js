@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Router } from '@reach/router'
-import Home from "./Home"
+import About from "./About"
 import Demo from "./Demo";
 import nav from "./Navbar"
 
@@ -10,7 +10,7 @@ export default class App extends Component {
             <React.Fragment>
                 {nav()}<br/>
                 <Router>
-                    <Home path="/" />
+                    <About path="/" />
                     <Demo path="/demo/" />
                 </Router>
             </React.Fragment>

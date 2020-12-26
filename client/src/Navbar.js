@@ -36,7 +36,7 @@ export default function nav(props) {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav>
-              <Nav.Link><Link to='/'><Text color='white' fontSize={[1, 2, 3]}>Home</Text></Link></Nav.Link>
+              <Nav.Link><Link to='/'><Text color='white' fontSize={[1, 2, 3]}>About</Text></Link></Nav.Link>
               <Nav.Link><Link to='/demo/'><Text color='white' fontSize={[1, 2, 3]}>Demo</Text></Link></Nav.Link>
           </Nav>
         </Navbar.Collapse>
