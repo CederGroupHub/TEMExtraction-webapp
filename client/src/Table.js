@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Display from './DisplayImage';
 import ColorKey from './Shared/img/color_key.png';
+import { Text } from 'rebass';
 
 export default class Table extends Component {
     render() {
@@ -21,7 +22,18 @@ export default class Table extends Component {
                     </div>
                 </Tab>
                 <Tab tabClassName='color-blue' eventKey="scale_label" title="SCALE AND LABEL DETECTION">
-                    <Display image={this.props.detected_image} />
+                    <div className='row'>
+                        <div className='column'>
+                            <Display image={this.props.detected_image} />
+                        </div>
+                        <div className='column'>
+                            <Text color='white' fontSize={[1, 2, 3]}>
+                                Label: {this.props.detected_image.OCR.label}<br/>
+                                Scale: {this.props.detected_image.OCR.digit}{this.props.detected_image.OCR.unit}<br/>
+                                Bar Width: {this.props.detected_image.OCR.bar_width}
+                            </Text>
+                        </div>
+                    </div>
                 </Tab>
             </Tabs>
         );

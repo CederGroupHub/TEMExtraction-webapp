@@ -61,6 +61,12 @@ def run_OCR():
     _, digit, unit = read_OCR_from_folder('scale', scales_path, 'label_scale_bar_detector')
     return text, digit, unit
 
+def measure_bar():
+    for f in os.listdir("label_scale_bar_detector/bar"):
+        img = Image.open(os.path.join("label_scale_bar_detector/bar", f))
+        width, height = img.size
+    return width
+
 def crop_scales(path_img, path_ann, save_dir):
     annotations = json.load(open(path_ann))
     types = ['bar', 'scale', 'label']
