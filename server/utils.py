@@ -1,11 +1,14 @@
 import io
 import re
 import os
+import json
 import subprocess
 import base64
+
 from io import BytesIO
 from PIL import Image
 from label_scale_bar_detector.localizer import detect
+from label_scale_bar_detector.OCR import read
 
 baseheight = 500
 
@@ -48,3 +51,89 @@ def run_object_detection():
     img_str, wsize = get_base64_str(img)
 
     return img_str, wsize, baseheight
+
+def run_OCR():
+    crop_scales('label_scale_bar_detector/images', 'label_scale_bar_detector/localizer/darknet/result.json', 'label_scale_bar_detector')
+    # Read labels and scales
+    labels_path = "label_scale_bar_detector/label"
+    scales_path = "label_scale_bar_detector/scale"
+    _, text = read_OCR_from_folder('label', labels_path, 'label_scale_bar_detector')
+    _, digit, unit = read_OCR_from_folder('scale', scales_path, 'label_scale_bar_detector')
+    return text, digit, unit
+
+def crop_scales(path_img, path_ann, save_dir):
+    annotations = json.load(open(path_ann))
+    types = ['bar', 'scale', 'label']
+
+    for ann in annotations:
+        name = ann['filename'].split('/')[2]
+        for tp in types:
+            output_dir = os.path.join(save_dir, tp)
+            if not os.path.isdir(output_dir):
+                os.mkdir(output_dir)
+            objects = [obj for obj in ann['objects'] if obj["name"] == tp]
+            if len(objects) == 0:
+                continue
+            elif len(objects) == 1:
+                coords = objects[0]['relative_coordinates']
+                confidence = objects[0]['confidence']
+            else:
+                confidence = 0
+                highest_confidence_index = 0
+                for i, obj in enumerate(objects):
+                    confidence_new = obj['confidence']
+                    if confidence_new > confidence:
+                        highest_confidence_index = i
+                coords = objects[highest_confidence_index]['relative_coordinates']
+                confidence = objects[highest_confidence_index]['confidence']
+            # Crop out bbox and save in path_save
+            img = Image.open(os.path.join(path_img, name))
+            w, h = img.size
+            left = (coords['center_x'] - coords['width']/2) * w
+            right = (coords['center_x'] + coords['width']/2) * w
+            top = (coords['center_y'] - coords['height']/2) * h
+            bottom = (coords['center_y'] + coords['height']/2) * h
+
+            img_cropped = img.crop((left, top, right, bottom))
+            img_cropped.save(os.path.join(output_dir, str(tp) + '_' + str(name)))
+
+def read_OCR_from_folder(tp, src_path, dest_path):
+    # Run OCR on the extracted labels
+    if tp == 'scale':
+        columns = ['filename', 'digit', 'unit']
+        fname = "scales.csv"
+        if not os.path.isdir(os.path.join(dest_path, 'Scales_bicubic')):
+            os.mkdir(os.path.join(dest_path, 'Scales_bicubic'))
+        if not os.path.isdir(os.path.join(dest_path, 'Scales_SRCNN')):
+            os.mkdir(os.path.join(dest_path, 'Scales_SRCNN'))
+    elif tp == 'label':
+        columns = ['filename', 'label']
+        fname = "labels.csv"
+        if not os.path.isdir(os.path.join(dest_path, 'Labels_bicubic')):
+            os.mkdir(os.path.join(dest_path, 'Labels_bicubic'))
+        if not os.path.isdir(os.path.join(dest_path, 'Labels_SRCNN')):
+            os.mkdir(os.path.join(dest_path, 'Labels_SRCNN'))
+
+    ctr_total = 0
+    ctr = 0
+    data = []
+    for f in os.listdir(src_path):
+        ctr_total += 1
+
+        if tp == 'label':
+            text = read(tp, os.path.join(src_path, f))
+            if text:
+                data.append([f, text])
+                ctr += 1
+        elif tp == 'scale':
+            digit, unit = read(tp, os.path.join(src_path, f))
+            if digit and unit:
+                data.append([f, digit, unit])
+                ctr += 1
+
+        if ctr != 0 and ctr % 10 == 0:
+            print("Labels extracted:", ctr)
+            print("Labels seen:", ctr_total)
+            print("Extraction rate:", float(ctr) / ctr_total * 100, '%')
+
+    return tuple(data[0]) # if multiple images in folder, change this

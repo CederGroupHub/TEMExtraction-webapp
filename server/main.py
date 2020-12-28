@@ -2,11 +2,12 @@ import os
 import io
 import re
 import base64
-from utils import *
+
+from PIL import Image
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image
+from utils import remove_base64_prefix, base64_to_bytes, run_segmentation, run_OCR, run_object_detection
 
 app = FastAPI()
 
@@ -33,11 +34,14 @@ async def object_detect(f: Base64):
     im.save('label_scale_bar_detector/images/test_img.jpg')
 
     base64_string, width, height = run_object_detection()
+    text, digit, unit = run_OCR()
+    print(text, digit, unit)
 
     os.remove("label_scale_bar_detector/images/test_img.jpg")
     os.remove("label_scale_bar_detector/localizer/darknet/predictions.jpg")
 
     return {'base64': base64_string, 'width': width, 'height': height}
+    # return {'base64': base64_string, 'width': width, 'height': height, 'OCR': {'label': text, 'digit': digit, 'unit': unit}}
 
 if os.environ.get("COVID_API_CORS_DEBUG", "False") == "True":
     print('Warning: sending CORS headers to allow debugging, this should not happen in production mode.')
