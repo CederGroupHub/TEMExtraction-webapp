@@ -143,3 +143,10 @@ def read_OCR_from_folder(tp, src_path, dest_path):
             print("Extraction rate:", float(ctr) / ctr_total * 100, '%')
 
     return tuple(data[0]) # if multiple images in folder, change this
+
+def cleanup():
+    os.remove("label_scale_bar_detector/images/test_img.jpg")
+    os.remove("label_scale_bar_detector/localizer/darknet/predictions.jpg")
+    os.remove("label_scale_bar_detector/bar/bar_test_img.jpg")
+    os.remove("label_scale_bar_detector/scale/scale_test_img.jpg")
+    os.remove("label_scale_bar_detector/label/label_test_img.jpg")
