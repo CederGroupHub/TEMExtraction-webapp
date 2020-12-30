@@ -3,6 +3,7 @@ import io
 import re
 import base64
 
+from typing import Any
 from PIL import Image
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
@@ -16,9 +17,9 @@ class Base64(BaseModel):
     base64: str
 
 class ScaleReadings(BaseModel):
-    bar_width: int
-    digit: int
-    unit: str
+    bar_width: Any
+    digit: Any
+    unit: Any
 
 @app.post("/segment/")
 async def segment(f: Base64):

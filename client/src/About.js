@@ -5,6 +5,7 @@ import { Logo } from './Navbar';
 import DemoHome from './Shared/img/Demo_home.png';
 import DemoScale from './Shared/img/demo_scale.png';
 import DemoSegmentation from './Shared/img/demo_segmentation.png';
+import DemoPSD from './Shared/img/demo_psd.png';
 
 
 export default class About extends Component {
@@ -43,6 +44,10 @@ export default class About extends Component {
                     The Scale and Label Detection tab contains the predicted locations of scales, labels and bars in the image.<br/>
                 </Text>
                 <img src={DemoScale} alt='' />
+                <Text color='white' fontSize={[1, 2, 3]}>
+                    The Particle Size Distribution tab contains the size distribution histograms for each shape present in the image.<br/>
+                </Text>
+                <img src={DemoPSD} alt='' />
             </div>
         );
     }

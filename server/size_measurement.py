@@ -161,19 +161,34 @@ def plot_shape(sizes_list, unit, num_plots):
         # plt.show()
 
     if len(sizes_list["sphere"]["diameter"]) > 0:
-        plot(sizes_list["sphere"]["diameter"], "Diameter ({})".format(unit), "Sphere", ax[current_plot])
+        if num_plots == 1:
+            plot(sizes_list["sphere"]["diameter"], "Diameter ({})".format(unit), "Sphere", ax)
+        else:
+            plot(sizes_list["sphere"]["diameter"], "Diameter ({})".format(unit), "Sphere", ax[current_plot])
         current_plot += 1
     if len(sizes_list["rod"]["length"]) > 0:
-        plot(sizes_list["rod"]["length"], "Length ({})".format(unit), "Rod (Length)", ax[current_plot])
+        if num_plots == 1:
+            plot(sizes_list["rod"]["length"], "Length ({})".format(unit), "Rod (Length)", ax)
+        else:
+            plot(sizes_list["rod"]["length"], "Length ({})".format(unit), "Rod (Length)", ax[current_plot])
         current_plot += 1
     if len(sizes_list["rod"]["width"]) > 0:
-        plot(sizes_list["rod"]["width"], "Width ({})".format(unit), "Rod (Width)", ax[current_plot])
+        if num_plots == 1:
+            plot(sizes_list["rod"]["width"], "Width ({})".format(unit), "Rod (Width)", ax)
+        else:
+            plot(sizes_list["rod"]["width"], "Width ({})".format(unit), "Rod (Width)", ax[current_plot])
         current_plot += 1
     if len(sizes_list["cube"]["side"]) > 0:
-        plot(sizes_list["cube"]["side"], "Side length ({})".format(unit), "Cube", ax[current_plot])
+        if num_plots == 1:
+            plot(sizes_list["cube"]["side"], "Side length ({})".format(unit), "Cube", ax)
+        else:
+            plot(sizes_list["cube"]["side"], "Side length ({})".format(unit), "Cube", ax[current_plot])
         current_plot += 1
     if len(sizes_list["triangle"]["height"]) > 0:
-        plot(sizes_list["triangle"]["height"], "Height ({})".format(unit), "Triangle", ax[current_plot])
+        if num_plots == 1:
+            plot(sizes_list["triangle"]["height"], "Height ({})".format(unit), "Triangle", ax)
+        else:
+            plot(sizes_list["triangle"]["height"], "Height ({})".format(unit), "Triangle", ax[current_plot])
     plt.tight_layout()
     # plt.show()
     plt.savefig('./plot/plot.jpg', bbox_inches='tight', pad_inches=0)
@@ -184,7 +199,10 @@ def main(masks_dir, class_ids_path, bar_width, digit, unit):
     #     sizes_json = json.load(open("sizes.json"))
     # else:
     #     sizes_json = {}
-    conversion_factor = float(digit) / float(bar_width)
+    if digit and bar_width:
+        conversion_factor = float(digit) / float(bar_width)
+    else:
+        conversion_factor = 1
     if not os.path.isdir('./plot'):
         os.mkdir('./plot')
 
@@ -239,7 +257,10 @@ def main(masks_dir, class_ids_path, bar_width, digit, unit):
         # if i % 20 == 0 and i != 0:
         #     print(i, " images completed!")
         num_plots += len(list(set(shapes)))
-        plot_shape(sizes_list, unit, num_plots)
+        if unit:
+            plot_shape(sizes_list, unit, num_plots)
+        else:
+            plot_shape(sizes_list, "pixels", num_plots)
 
 # if __name__ == '__main__':
 #     main("../../particle_segmentation/Mask_RCNN/masks",
