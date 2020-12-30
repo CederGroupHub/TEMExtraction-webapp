@@ -145,32 +145,51 @@ def measure_particle_size(mask):
     # plt.show()
     return sum(distances)/len(distances) * 2
 
-def plot_shape(sizes_list):
-    def plot(x, xlabel, title):
-        plt.hist(x, density=True, bins=30)  # density=False would make counts
-        plt.ylabel("Frequency")
-        plt.xlabel(xlabel)
-        plt.title(title)
-        plt.show()
+def plot_shape(sizes_list, unit, num_plots):
+    fig, ax = plt.subplots(num_plots)
+    fig.suptitle('Particle Size Distribution')
+    current_plot = 0
+
+    def plot(x, xlabel, title, ax):
+        ax.hist(x, density=True, bins=30)
+        ax.set(xlabel=xlabel, ylabel="No. of particles")
+        ax.set_title(title)
+        # plt.hist(x, density=True, bins=30)  # density=False would make counts
+        # plt.ylabel("No. of particles")
+        # plt.xlabel(xlabel)
+        # plt.title(title)
+        # plt.show()
 
     if len(sizes_list["sphere"]["diameter"]) > 0:
-        plot(sizes_list["sphere"]["diameter"], "Diameter (pixels)", "Sphere")
+        plot(sizes_list["sphere"]["diameter"], "Diameter ({})".format(unit), "Sphere", ax[current_plot])
+        current_plot += 1
     if len(sizes_list["rod"]["length"]) > 0:
-        plot(sizes_list["rod"]["length"], "Length (pixels)", "Rod (Length)")
+        plot(sizes_list["rod"]["length"], "Length ({})".format(unit), "Rod (Length)", ax[current_plot])
+        current_plot += 1
     if len(sizes_list["rod"]["width"]) > 0:
-        plot(sizes_list["rod"]["width"], "Width (pixels)", "Rod (Width)")
+        plot(sizes_list["rod"]["width"], "Width ({})".format(unit), "Rod (Width)", ax[current_plot])
+        current_plot += 1
     if len(sizes_list["cube"]["side"]) > 0:
-        plot(sizes_list["cube"]["side"], "Side length (pixels)", "Cube")
+        plot(sizes_list["cube"]["side"], "Side length ({})".format(unit), "Cube", ax[current_plot])
+        current_plot += 1
     if len(sizes_list["triangle"]["height"]) > 0:
-        plot(sizes_list["triangle"]["height"], "Height (pixels)", "Triangle")
+        plot(sizes_list["triangle"]["height"], "Height ({})".format(unit), "Triangle", ax[current_plot])
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig('./plot/plot.jpg', bbox_inches='tight', pad_inches=0)
 
-def main(masks_dir, class_ids_path):
+def main(masks_dir, class_ids_path, bar_width, digit, unit):
     class_ids_all = json.load(open(class_ids_path))
     # if os.path.exists("sizes.json"):
     #     sizes_json = json.load(open("sizes.json"))
     # else:
     #     sizes_json = {}
+    conversion_factor = float(digit) / float(bar_width)
+    if not os.path.isdir('./plot'):
+        os.mkdir('./plot')
 
+    num_plots = 0
+    shapes = []
     for i, f in enumerate(os.listdir(masks_dir)):
         masks = np.load(os.path.join(masks_dir, f))
         class_ids = class_ids_all[f.replace(".npy", "")]
@@ -195,17 +214,22 @@ def main(masks_dir, class_ids_path):
                 continue
             if class_id == 1:
                 size = measure_particle_size(masks[:, :, i])
-                sizes_list['sphere']['diameter'].append(size)
+                sizes_list['sphere']['diameter'].append(size * conversion_factor)
+                shapes.append('sphere')
             elif class_id == 2:
                 length, width = measure_rod_size(masks[:, :, i])
-                sizes_list['rod']['length'].append(length)
-                sizes_list['rod']['width'].append(width)
+                sizes_list['rod']['length'].append(length * conversion_factor)
+                sizes_list['rod']['width'].append(width * conversion_factor)
+                shapes.append('rod_length')
+                shapes.append('rod_width')
             elif class_id == 3:
                 size = measure_cube_size(masks[:, :, i])
-                sizes_list['cube']['side'].append(size)
+                sizes_list['cube']['side'].append(size * conversion_factor)
+                shapes.append('cube')
             elif class_id == 4:
                 size = measure_triangle_size(masks[:, :, i])
-                sizes_list['triangle']['height'].append(size)
+                sizes_list['triangle']['height'].append(size * conversion_factor)
+                shapes.append('triangle')
             # sizes_list.append(size)
             # print(sizes_list)
         # sizes_json[f.replace(".npy", "")] = sizes_list
@@ -214,8 +238,9 @@ def main(masks_dir, class_ids_path):
         #         json.dump(sizes_json, outfile)
         # if i % 20 == 0 and i != 0:
         #     print(i, " images completed!")
-        plot_shape(sizes_list)
+        num_plots += len(list(set(shapes)))
+        plot_shape(sizes_list, unit, num_plots)
 
-if __name__ == '__main__':
-    main("../../particle_segmentation/Mask_RCNN/masks",
-         "../../particle_segmentation/Mask_RCNN/object_classes/class_ids.json")
+# if __name__ == '__main__':
+#     main("../../particle_segmentation/Mask_RCNN/masks",
+#          "../../particle_segmentation/Mask_RCNN/object_classes/class_ids.json")

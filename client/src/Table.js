@@ -35,6 +35,9 @@ export default class Table extends Component {
                         </div>
                     </div>
                 </Tab>
+                <Tab tabClassName='color-blue' eventKey="psd_plot" title="PARTICLE SIZE DISTRIBUTION">
+                    <Display image={this.props.plot} />
+                </Tab>
             </Tabs>
         );
     }

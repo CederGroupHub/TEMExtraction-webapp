@@ -16,10 +16,12 @@ export default class Demo extends Component {
       loading: true,
       uploading_segmentation: false,
       uploading_detection: false,
+      uploading_plot: false,
       segmented_image: null,
       detected_image: null,
       uploaded_file: null,
-      text: 'No File Selected.'
+      plot: null,
+      text: 'No File Selected.',
     }
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -27,6 +29,27 @@ export default class Demo extends Component {
 
   componentDidMount() {
     this.setState({'loading': false});
+  }
+
+  fetchPlot(bar_width, digit, unit) {
+    fetch(`${API_URL}/plot-size/`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        'bar_width': bar_width,
+        'digit': digit,
+        'unit': unit
+      })
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw res;
+      }
+      return res.json();
+    })
+    .then(res => {
+      this.setState({uploading_plot: false, plot: res});
+    });
   }
 
   fetchSegmentedImage(str) {
@@ -59,7 +82,13 @@ export default class Demo extends Component {
       return res.json();
     })
     .then(res => {
-      this.setState({uploading_detection: false, detected_image: res});
+      this.setState({uploading_detection: false, detected_image: res}, () => {
+        this.setState({uploading_plot: true});
+        this.fetchPlot(
+          this.state.detected_image.OCR.bar_width,
+          this.state.detected_image.OCR.digit,
+          this.state.detected_image.OCR.unit);
+      });
     });
   }
 
@@ -96,9 +125,9 @@ export default class Demo extends Component {
               <Spinner />
             </div>
           )
-        case this.state.detected_image !== null && this.state.segmented_image !== null:
+        case this.state.detected_image !== null && this.state.segmented_image !== null && this.state.plot !== null:
           return (
-            <Table segmented_image={this.state.segmented_image} detected_image={this.state.detected_image}/>
+            <Table segmented_image={this.state.segmented_image} detected_image={this.state.detected_image} plot={this.state.plot}/>
           )
         default:
           return (
