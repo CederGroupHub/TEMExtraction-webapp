@@ -2,7 +2,7 @@
 
 # Build darknet according to Makefile (as of now will run on cpu)
 cd label_scale_bar_detector/localizer/darknet/
-make
+# make
 
 # need to set our custom cfg to test mode
 cd cfg
