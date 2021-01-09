@@ -1,5 +1,4 @@
 *__pycache__
-server/label_scale_bar_detector
 client/node_modules
 .eslintcache
 condaenv*
