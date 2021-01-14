@@ -13,6 +13,10 @@ from label_scale_bar_detector.OCR import read
 
 baseheight = 500
 
+def create_dir(path):
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
 def remove_base64_prefix(f):
     image_data = re.sub('^data:image/.+;base64,', '', f.base64)
     return image_data
@@ -63,6 +67,7 @@ def run_OCR():
     return text, digit, unit
 
 def measure_bar():
+    width = None
     for f in os.listdir("label_scale_bar_detector/bar"):
         img = Image.open(os.path.join("label_scale_bar_detector/bar", f))
         width, height = img.size
@@ -76,8 +81,7 @@ def crop_scales(path_img, path_ann, save_dir):
         name = ann['filename'].split('/')[2]
         for tp in types:
             output_dir = os.path.join(save_dir, tp)
-            if not os.path.isdir(output_dir):
-                os.mkdir(output_dir)
+            create_dir(output_dir)
             objects = [obj for obj in ann['objects'] if obj["name"] == tp]
             if len(objects) == 0:
                 continue
@@ -109,17 +113,13 @@ def read_OCR_from_folder(tp, src_path, dest_path):
     if tp == 'scale':
         columns = ['filename', 'digit', 'unit']
         fname = "scales.csv"
-        if not os.path.isdir(os.path.join(dest_path, 'Scales_bicubic')):
-            os.mkdir(os.path.join(dest_path, 'Scales_bicubic'))
-        if not os.path.isdir(os.path.join(dest_path, 'Scales_SRCNN')):
-            os.mkdir(os.path.join(dest_path, 'Scales_SRCNN'))
+        create_dir(os.path.join(dest_path, 'Scales_bicubic'))
+        create_dir(os.path.join(dest_path, 'Scales_SRCNN'))
     elif tp == 'label':
         columns = ['filename', 'label']
         fname = "labels.csv"
-        if not os.path.isdir(os.path.join(dest_path, 'Labels_bicubic')):
-            os.mkdir(os.path.join(dest_path, 'Labels_bicubic'))
-        if not os.path.isdir(os.path.join(dest_path, 'Labels_SRCNN')):
-            os.mkdir(os.path.join(dest_path, 'Labels_SRCNN'))
+        create_dir(os.path.join(dest_path, 'Labels_bicubic'))
+        create_dir(os.path.join(dest_path, 'Labels_SRCNN'))
 
     ctr_total = 0
     ctr = 0

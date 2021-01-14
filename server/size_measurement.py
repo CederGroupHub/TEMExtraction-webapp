@@ -6,7 +6,7 @@ import pandas as pd
 from skimage.measure import find_contours
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-
+from utils import create_dir
 
 def centre_of_mass(img_np):
     x = 0.0
@@ -203,8 +203,7 @@ def main(masks_dir, class_ids_path, bar_width, digit, unit):
         conversion_factor = float(digit) / float(bar_width)
     else:
         conversion_factor = 1
-    if not os.path.isdir('./plot'):
-        os.mkdir('./plot')
+    create_dir('./plot')
 
     num_plots = 0
     shapes = []

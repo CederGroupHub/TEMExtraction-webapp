@@ -8,7 +8,7 @@ from PIL import Image
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from utils import remove_base64_prefix, baseheight, get_base64_str, base64_to_bytes, run_segmentation, run_OCR, run_object_detection, measure_bar, cleanup
+from utils import remove_base64_prefix, baseheight, get_base64_str, base64_to_bytes, run_segmentation, run_OCR, run_object_detection, measure_bar, cleanup, create_dir
 from size_measurement import main
 
 app = FastAPI()
@@ -38,6 +38,7 @@ async def segment(f: Base64):
 async def object_detect(f: Base64):
     image_data = remove_base64_prefix(f)
     im = Image.open(base64_to_bytes(image_data)).convert('RGB')
+    create_dir('label_scale_bar_detector/images')
     im.save('label_scale_bar_detector/images/test_img.jpg')
 
     base64_string, width, height = run_object_detection()
