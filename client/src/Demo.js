@@ -119,7 +119,7 @@ export default class Demo extends Component {
               <WakeUp />
             </div>
           )
-        case this.state.uploading_detection || this.state.uploading_segmentation:
+        case this.state.uploading_detection || this.state.uploading_segmentation || this.state.uploading_plot:
           return (
             <div className='spin'>
               <Spinner />
