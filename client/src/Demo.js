@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Spinner from './Spinner'
+import Progress from './Spinner'
 import Buttons from './Buttons'
 import WakeUp from './WakeUp'
 import { API_URL } from './config'
@@ -22,6 +22,7 @@ export default class Demo extends Component {
       uploaded_file: null,
       plot: null,
       text: 'No File Selected.',
+      progress: null,
     }
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -32,6 +33,7 @@ export default class Demo extends Component {
   }
 
   fetchPlot(bar_width, digit, unit) {
+    this.setState({progress: 'Plotting size distribution histograms...'});
     fetch(`${API_URL}/plot-size/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -53,6 +55,7 @@ export default class Demo extends Component {
   }
 
   fetchSegmentedImage(str) {
+    this.setState({progress: 'Running particle segmentation...'});
     fetch(`${API_URL}/segment/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -70,6 +73,7 @@ export default class Demo extends Component {
   }
 
   fetchScaleDetectedImage(str) {
+    this.setState({progress: 'Running Scale, Label and Bar detection...'});
     fetch(`${API_URL}/detect/`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -119,11 +123,11 @@ export default class Demo extends Component {
               <WakeUp />
             </div>
           )
-        case this.state.uploading_detection || this.state.uploading_segmentation || this.state.uploading_plot:
+        case (this.state.uploading_detection || this.state.uploading_segmentation || this.state.uploading_plot):
           return (
-            <div className='spin'>
-              <Spinner />
-            </div>
+            // <div className='spin'>
+              <Progress now={this.state.progress}/>
+            // </div>
           )
         case this.state.detected_image !== null && this.state.segmented_image !== null && this.state.plot !== null:
           return (
