@@ -5,6 +5,8 @@ body {
   margin: 0px;
 }
 
+.progress {height: 30px !important;}
+
 .color-blue {
   color: #26b7b7;
   font-weight: bold;
