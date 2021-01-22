@@ -151,7 +151,7 @@ def plot_shape(sizes_list, unit, num_plots):
     current_plot = 0
 
     def plot(x, xlabel, title, ax):
-        ax.hist(x, density=True, bins=30)
+        ax.hist(x, bins=30)
         ax.set(xlabel=xlabel, ylabel="No. of particles")
         ax.set_title(title)
         # plt.hist(x, density=True, bins=30)  # density=False would make counts
