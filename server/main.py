@@ -47,7 +47,8 @@ async def object_detect(f: Base64):
 
     cleanup()
 
-    return {'base64': base64_string, 'width': width, 'height': height, 'OCR': {'label': text, 'digit': digit, 'unit': unit, 'bar_width': bar_width}}
+    return {'base64': base64_string, 'width': width, 'height': height,
+            'OCR': {'label': text, 'digit': digit, 'unit': unit, 'bar_width': bar_width}}
 
 @app.post("/plot-size/")
 async def plot(f: ScaleReadings):

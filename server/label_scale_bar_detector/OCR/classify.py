@@ -101,9 +101,10 @@ class OCRLabel(OCRBase):
         return pytesseract.image_to_string(img, config='-c tessedit_char_whitelist=abcdefghiABCDEFGHI1234 --psm 7')
 
     def success(self, st):
-        if len(st) == 1 and st.isalpha():
+        whitelist = 'abcdefghiABCDEFGHI1234'
+        if len(st) == 1 and st.isalpha() and (st in whitelist):
             return True
-        elif len(st) == 2 and st[0].isalpha() and st[1].isdigit():
+        elif len(st) == 2 and st[0].isalpha() and st[1].isdigit() and (st[0] in whitelist):
             return True
         else:
             return False
