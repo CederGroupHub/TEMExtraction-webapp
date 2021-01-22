@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import Progress from './Spinner'
 import Buttons from './Buttons'
+import { Button } from '@material-ui/core';
 import WakeUp from './WakeUp'
 import { API_URL } from './config'
 import './App.css'
 import Table from './Table'
 import {Text} from 'rebass';
 import { Logo } from './Navbar';
+import { Link } from '@reach/router';
 
 
 export default class Demo extends Component {
@@ -26,6 +28,7 @@ export default class Demo extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +48,7 @@ export default class Demo extends Component {
     })
     .then(res => {
       if (!res.ok) {
+        console.log(res);
         throw res;
       }
       return res.json();
@@ -68,7 +72,8 @@ export default class Demo extends Component {
       return res.json();
     })
     .then(res => {
-      this.setState({uploading_segmentation: false, segmented_image: res});
+      this.setState({uploading_segmentation: false, segmented_image: res, uploading_detection: true});
+      this.fetchScaleDetectedImage(str);
     });
   }
 
@@ -86,13 +91,12 @@ export default class Demo extends Component {
       return res.json();
     })
     .then(res => {
-      this.setState({uploading_detection: false, detected_image: res}, () => {
-        this.setState({uploading_plot: true});
-        this.fetchPlot(
-          this.state.detected_image.OCR.bar_width,
-          this.state.detected_image.OCR.digit,
-          this.state.detected_image.OCR.unit);
-      });
+      this.setState({uploading_detection: false, detected_image: res, uploading_plot: true});
+      this.fetchPlot(
+        res.OCR.bar_width,
+        res.OCR.digit,
+        res.OCR.unit
+      );
     });
   }
 
@@ -106,12 +110,24 @@ export default class Demo extends Component {
     let reader = new FileReader();
     reader.onload = (e) => {
       this.setState({uploading_segmentation: true});
-      this.setState({uploading_detection: true});
 
       this.fetchSegmentedImage(String(e.target.result));
-      this.fetchScaleDetectedImage(String(e.target.result));
     };
     reader.readAsDataURL(this.state.uploaded_file);
+  }
+
+  resetState() {
+    this.setState({
+      uploading_segmentation: false,
+      uploading_detection: false,
+      uploading_plot: false,
+      segmented_image: null,
+      detected_image: null,
+      uploaded_file: null,
+      plot: null,
+      text: 'No File Selected.',
+      progress: null
+    });
   }
 
   render() {
@@ -131,7 +147,14 @@ export default class Demo extends Component {
           )
         case this.state.detected_image !== null && this.state.segmented_image !== null && this.state.plot !== null:
           return (
-            <Table segmented_image={this.state.segmented_image} detected_image={this.state.detected_image} plot={this.state.plot}/>
+            <React.Fragment>
+              <Table segmented_image={this.state.segmented_image} detected_image={this.state.detected_image} plot={this.state.plot}/>
+              <Link to='/demo/'>
+                <Button variant="contained" color="secondary" component="span" onClick={this.resetState}>
+                  Upload another image
+                </Button>
+              </Link>
+            </React.Fragment>
           )
         default:
           return (
