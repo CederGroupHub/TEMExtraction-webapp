@@ -39,7 +39,7 @@ def run_segmentation():
     subprocess.check_call('python samples/TEM/TEM.py inferone'
                             ' --model {}'
                             ' --image_path {}'.format(
-                                './logs/tem/mask_rcnn_tem_0295.h5',
+                                './logs/tem/mask_rcnn_tem_0200.h5',
                                 'images/test_img.jpg'),
                                 shell=True
                             )
