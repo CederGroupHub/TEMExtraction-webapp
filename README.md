@@ -8,11 +8,16 @@
 ## Installation
 
 Run `conda env create -f environment.yml`.
+Note: Installation using this yml file has been tested only on MACOSX.
 
 # Running the app
 
 1) `cd client && npm start`.
-2) `cd server && uvicorn main:app --reload`.
+2) `cd server && uvicorn main:app --reload`.  
+
+The following is an illustration of the results displayed when a sample TEM image is uploaded.  
+  
+<img src='web_app.png' width=500>
 
 # Acknowledgements
 
