@@ -12,8 +12,9 @@ Note: Installation using this yml file has been tested only on MACOSX.
 
 # Running the app
 
-1) `cd client && npm start`.
-2) `cd server && uvicorn main:app --reload`.  
+1) `export CORS_DEBUG="True"`
+2) `cd client && npm start`.
+3) `cd server && uvicorn main:app --reload`.  
 
 The following is an illustration of the results displayed when a sample TEM image is uploaded.  
   
