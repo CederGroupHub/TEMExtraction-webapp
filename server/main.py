@@ -57,7 +57,7 @@ async def plot(f: ScaleReadings):
     base64_string, width = get_base64_str(img)
     return {'base64': base64_string, 'width': width, 'height': baseheight}
 
-if os.environ.get("COVID_API_CORS_DEBUG", "False") == "True":
+if os.environ.get("CORS_DEBUG", "False") == "True":
     print('Warning: sending CORS headers to allow debugging, this should not happen in production mode.')
 
     origins = [
