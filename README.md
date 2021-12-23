@@ -25,3 +25,17 @@ The following is an illustration of the results displayed when a sample TEM imag
 1) [https://github.com/AlexeyAB/darknet](https://github.com/AlexeyAB/darknet)
 2) [https://github.com/yjn870/SRCNN-pytorch](https://github.com/yjn870/SRCNN-pytorch)
 3) [https://github.com/matterport/Mask_RCNN](https://github.com/matterport/Mask_RCNN)
+
+# Citation
+If you use this code, please cite the following [manuscript](https://arxiv.org/abs/2112.01689):
+
+```
+@misc{subramanian2021dataset,
+      title={Dataset of gold nanoparticle sizes and morphologies extracted from literature-mined microscopy images}, 
+      author={Akshay Subramanian and Kevin Cruse and Amalie Trewartha and Xingzhi Wang and Paul Alivisatos and Gerbrand Ceder},
+      year={2021},
+      eprint={2112.01689},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.mtrl-sci}
+}
+```
